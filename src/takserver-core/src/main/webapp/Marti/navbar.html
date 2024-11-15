@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+
+    <style>
+      :root {
+        --background-color-light: whitesmoke;
+        --color-light: black;
+        --background-color-dark: #14171acc;
+        --color-dark: whitesmoke;
+      }
+
+      body {
+        background-color: var(--background-color-dark);
+        color: var(--color-dark);
+      }
+
+      #bar {
+        background-color: var(--background-color-dark);
+        min-width: 100vw;
+        height: 5vh;
+        border-bottom: 1px solid #333b4d99;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 45px;
+      }
+
+      .nav-menu-button {
+        background-color: var(--background-color-dark);
+        color: var(--color-dark);
+        border: 1px solid whitesmoke;
+        border-radius: 5px;
+        min-width: 35px;
+        min-height: 35px;
+      }
+
+      .nav-menu-button:hover {
+        background-color: grey;
+      }
+
+      .nav-menu-item {
+        padding-left: 20px;
+      }
+
+      #sideDrawer {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: var(--background-color-dark);
+        color: var(--color-dark);
+        border-right: 1px solid #333b4d99;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        transition: left 0.3s ease;
+        overflow-y: auto;
+      }
+
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="bar">
+        <button id="nav-menu-button" class="nav-menu-button">
+          <img src="../menu.png" alt="menu_icon" width="25px" height="25px" />
+        </button>
+        <div class="nav-menu-item">
+          <a href="./index.html">
+          <img
+            src="../tak-logo.png"
+            alt="tak_logo"
+            width="40px"
+            height="40px"
+          /></a>
+        </div>
+        <div class="nav-menu-item" style="padding-bottom: 5px;"><h3>Tak Admin Console</h3></div>
+      </div>
+      <div id="overlay"></div>
+      <nav id="sideDrawer">
+        <ul>
+          <li>Data</li>
+          <li>Situation Awareness</li>
+          <li>Configuration</li>
+          <li>Administrative</li>
+          <li>Monitoring</li>
+          <li>Plugins</li>
+          <li>Documentation</li>
+        </ul>
+      </nav>
+    </div>
+    <script>
+      const sideDrawer = document.getElementById("sideDrawer");
+      const overlay = document.getElementById("overlay");
+      const toggleDrawerButton = document.getElementById("nav-menu-button");
+
+      function openDrawer() {
+        sideDrawer.style.left = "0";
+        overlay.style.display = "block";
+      }
+
+      function closeDrawer() {
+        sideDrawer.style.left = "-250px";
+        overlay.style.display = "none";
+      }
+
+      toggleDrawerButton.addEventListener("click", openDrawer);
+
+      overlay.addEventListener("click", closeDrawer);
+    </script>
+  </body>
+</html>
