@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metrics Dashboard</title>
+    <script
+      type="text/javascript"
+      src="../../lib/vue.global.prod.min.js"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <div v-if="navbar" v-html="navbar">
+        <router-view></router-view>
+      </div>
+    </div>
+
+    <script type="module">
+      "use strict;";
+
+      async function loadContent(path, targetId) {
+        try {
+          const response = await fetch(path);
+          if (response.ok) {
+            document.getElementById(targetId).innerHTML = await response.text();
+          } else {
+            console.error(`Failed to fetch ${path}:`, response.statusText);
+          }
+        } catch (error) {
+          console.error(`Error fetching ${path}:`, error);
+        }
+      }
+
+      const App = {
+        mounted() {
+          loadContent("navbar.html", "navbar");
+          loadContent("footer.jsp", "footer");
+        },
+      };
+
+      const router = VueRouter.createRouter({
+        history: VueRouter.createWebHistory(),
+        routes: [...window.ModuleRoutes],
+      });
+
+      Vue.createApp(App).use(router).mount("#app");
+    </script>
+  </body>
+</html>

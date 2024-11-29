@@ -1,0 +1,193 @@
+<style>
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --background-color-light: whitesmoke;
+    --color-light: black;
+    --background-color-dark: black;
+    --color-dark: whitesmoke;
+  }
+
+  #metrics-container {
+    word-wrap: break-word;
+    color: white;
+    padding-right: 2vw;
+    padding-left: 2vw;
+    padding-top: 10px;
+    background-color: #05070a;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  #dashboard-title {
+    padding-top: 2vh;
+    padding-left: 1vw;
+    padding-bottom: 20px;
+  }
+
+  #container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100vw;
+    min-height: 100vh;
+  }
+
+  .container-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .card {
+    background-color: var(--background-color-dark);
+    color: var(--color-dark);
+    border: 1px solid #333b4d99;
+    border-radius: 10px;
+    flex-grow: 1;
+  }
+
+  #content {
+    text-align: center;
+  }
+
+  .donut {
+    max-width: 2vw;
+    max-height: 2vh;
+    margin-bottom: 5%;
+  }
+</style>
+<div id="metrics-container">
+  <h2 id="dashboard-title">Server Health Dashboard</h2>
+  <div id="container">
+    <div id="container-row-1" class="container-row">
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Start Time</md-card-header-text>
+        </md-card-header>
+        <md-card-content id="content" data-ng-init="initStartTime()">
+          <p>{{ startTime }}</p>
+        </md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Uptime</md-card-header-text>
+        </md-card-header>
+        <md-card-content id="content" data-ng-init="initUptime()">
+          <p>{{ upTime }}</p>
+        </md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Database Status</md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <div data-ng-show="dbIsConnected">
+            <span>
+              <img src="../assets/online_icon.png" alt="online_icon" />
+              <p>Database Avaliable: Ready to receive connections</p></span
+            >
+          </div>
+          <div data-ng-show="!dbIsConnected">
+            <span
+              ><img src="../assets/error_icon.png" alt="error_icon" />
+              <p>Database Unavaliable: Check Connectivity</p></span
+            >
+          </div>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <!-- Container Row 2 -->
+    <div id="container-row-2" class="container-row">
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Sessions</md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <div data-ng-init="initClients()">
+            <md-card-subtitle>{{ clientsConnected }}</md-card-subtitle>
+          </div>
+          <div data-ng-init="initSessionGraph()" id="sessionGraph"></div>
+        </md-card-content>
+      </md-card>
+
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>CPU Usage</md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <div data-ng-init="initCpuGauge()" id="donut" class="donut"></div>
+        </md-card-content>
+      </md-card>
+
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Heap Usage (Megabytes)</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-include="'./partials/heapMemory.html'"></md-card-content>
+      </md-card>
+    </div>
+
+    <!-- Container Row 3 -->
+    <div id="container-row-3" class="container-row">
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text
+            >Network I/O (Bytes Read/Second)</md-card-header-text
+          >
+        </md-card-header>
+        <md-card-content data-ng-include="'./partials/networkBytesRead.html'"></md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text
+            >Network I/O (Bytes Written/Second)</md-card-header-text
+          >
+        </md-card-header>
+        <md-card-content data-ng-include="'./partials/networkBytesWritten.html'"></md-card-content>
+      </md-card>
+    </div>
+
+    <!-- Container Row 4 -->
+    <div id="container-row-4" class="container-row">
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Network Reads Per Second</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-include="'./partials/networkReads.html'"></md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Network Writes Per Second</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-include="'./partials/networkWrites.html'"></md-card-content>
+      </md-card>
+    </div>
+
+    <!-- Container Row 5 -->
+    <div id="container-row-5" class="container-row">
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Submission Queue</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-init="initSubmissionQueueGauge()"></md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Broker Queue</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-init="initBrokerQueueGauge()"></md-card-content>
+      </md-card>
+      <md-card appearance="outlined" class="card">
+        <md-card-header>
+          <md-card-header-text>Repository Queue</md-card-header-text>
+        </md-card-header>
+        <md-card-content data-ng-init="initRepositoryQueueGauge()"></md-card-content>
+      </md-card>
+    </div>
+  </div>
+</div>

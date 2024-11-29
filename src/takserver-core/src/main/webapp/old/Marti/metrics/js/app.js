@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('metricsManager', ['ngRoute', 'ngResource', 'metricsManagerControllers', 'metricsManagerServices']);
+var app = angular.module('metricsManager', ['ngRoute', 'ngResource', 'metricsManagerControllers', 'metricsManagerServices', 'ngMaterial', 'ngAnimate', 'ngAria']);
 
 app.filter('encodeURIComponent', function() {
     return window.encodeURIComponent;
