@@ -463,7 +463,7 @@ function MissionManager() {
           if(response.ok) {
             console.log("response OK")
             handleAddUIDs();
-            if(!keywords !== []){
+            if(!Array.isArray(keywords)){
               handleSetKeywords();
             }
             deleteUIDs();
