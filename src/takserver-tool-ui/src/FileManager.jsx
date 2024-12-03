@@ -12,7 +12,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, IconButton } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import InputLabel from '@mui/material/InputLabel';
@@ -32,6 +33,7 @@ import Footer from './Footer';
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 
+dayjs.extend(utc);
 
 // Reset object needed for componets that access the selected row hook
 const emptyRow = {name: "", hash: ""};
@@ -474,10 +476,12 @@ function FileManager() {
         renderCell: (params) => {
             return (
                 <TextField variant="standard"
-                value={moment(params.value).format("YYYY-MM-DDThh:mm")}
-                InputProps={{
-                    disableUnderline: true,
-                  }}
+                value={dayjs(params.value).format("YYYY-MM-DDThh:mm")}
+                slotProps={{
+                    input: {
+                        disableUnderline: true
+                    }
+                }}
                 />
             ) }
         },
@@ -488,13 +492,15 @@ function FileManager() {
                 <TextField
                     id="datetime-local"
                     type="datetime-local"
-                    defaultValue={moment(params.value).format('YYYY-MM-DDThh:mm')}
+                    defaultValue={dayjs(params.value).format('YYYY-MM-DDThh:mm')}
                     onClick={ (e) => {e.stopPropagation();}}
                     onChange={(e) => {
-                        setExpiration(params.row.hash, moment.utc(e.target.value).unix())
+                        setExpiration(params.row.hash, dayjs.utc(e.target.value).unix())
                     }}
-                    InputLabelProps={{
-                        shrink: true,
+                    slotProps={{
+                        inputLabel: {
+                            shrink: true
+                        }
                     }}
                 />  
             );

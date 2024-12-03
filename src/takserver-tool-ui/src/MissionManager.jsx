@@ -30,7 +30,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Chip from '@mui/material/Chip';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
@@ -47,8 +48,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
-import { SubscriptRounded } from '@mui/icons-material';
 
+dayjs.extend(utc);
 const drawerWidth = 600;
 
 const mockedRows = [{ id: '1', password: "hh", groups: ["__ANON__"], defaultRole: "__ANON__", type: 'public', chatRoom: "A", name: 'Row1', description: 'fdf', contents: ['file.txt'], keywords: 'dfd', uid: ['uid1'],
@@ -273,10 +274,12 @@ const columns = [
   renderCell: (params) => {
       return (
           <TextField variant="standard"
-          value={moment(params.value).format("YYYY-MM-DDThh:mm")}
-          InputProps={{
-              disableUnderline: true,
-            }}
+          value={dayjs(params.value).format("YYYY-MM-DDThh:mm")}
+          slotProps={{
+            input: {
+              disableUnderline: true
+            }
+          }}
           />
       ) }
   },
@@ -1224,10 +1227,10 @@ function MissionManager() {
                     label="Expiration"
                     id="datetime-local"
                     type="datetime-local"
-                    value={expiration === -1 || expiration === "" ? "" : moment.unix(expiration).format('YYYY-MM-DDThh:mm')}
+                    value={expiration === -1 || expiration === "" ? "" : dayjs.unix(expiration).format('YYYY-MM-DDThh:mm')}
                     onClick={ (e) => {e.stopPropagation();}}
                     onChange={(e) => {
-                        setExpiration(moment.utc(e.target.value).unix())
+                        setExpiration(dayjs.utc(e.target.value).unix())
                     }}
                     InputLabelProps={{
                         shrink: true,
