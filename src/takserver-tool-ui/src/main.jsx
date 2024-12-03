@@ -5,7 +5,7 @@ import FileManager from './FileManager';
 import MenuBar from './MenuBar';
 import MissionManager from './MissionManager';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('app');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
