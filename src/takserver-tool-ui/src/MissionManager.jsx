@@ -1,20 +1,20 @@
 import './MissionManager.css'
 import SendInviteMission from './SendInviteMission';
 import TransferList from './TranferList';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { DataGrid, GridToolbarContainer, getGridStringOperators} from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar from '@mui/material/AppBar';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton, ListItemText } from '@mui/material';
+import { Button, ListItemText } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -42,7 +42,6 @@ import {useDropzone} from 'react-dropzone';
 import UploadFile from './UploadFile';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import Switch from '@mui/material/Switch';
-import DataObjectIcon from '@mui/icons-material/DataObject';
 import CodeIcon from '@mui/icons-material/Code';
 import Autocomplete from '@mui/material/Autocomplete';
 import Snackbar from '@mui/material/Snackbar';
@@ -464,7 +463,7 @@ function MissionManager() {
           if(response.ok) {
             console.log("response OK")
             handleAddUIDs();
-            if(keywords !== []){
+            if(!keywords !== []){
               handleSetKeywords();
             }
             deleteUIDs();
