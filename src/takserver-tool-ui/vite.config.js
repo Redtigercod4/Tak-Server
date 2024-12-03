@@ -5,11 +5,15 @@ import path from "path";
 
 export default defineConfig({
     plugins: [react()],
+    test: {
+        globals: true,
+        environment: 'jsdom',
+    },
     build: {
         outDir: "./build",
         emptyOutDir: true,
         rollupOptions: {
-            input: path.resolve(__dirname, 'index.html'),
+            input: path.resolve(import.meta.dirname, 'index.html'),
             output: {
                 entryFileNames: 'static/js/main.js',
                 chunkFileNames: 'static/js/main.js',
